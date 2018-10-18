@@ -1,7 +1,7 @@
 import assert from 'assert';
 import parse from '../index';
 
-describe('Parser errors', () => {
+describe('Errors', () => {
 	const err = (message, pos) => ({ message, pos });
 
 	it('should throw error on invalid tags', () => {

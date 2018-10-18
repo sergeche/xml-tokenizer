@@ -24,13 +24,7 @@ const noop = () => {};
  * @param {function} callback 
  */
 export default function parseXml(text, options, callback) {
-	if (typeof options === 'function') {
-		callback = options;
-		options = null;
-	}
-
-	const parser = new XmlParser(text, options);
-	parser.parse(callback);
+	return new XmlParser(text, options, callback).parse();
 }
 
 /** @type {XmlParserOptions} */
@@ -42,19 +36,27 @@ const defaultOptions = {
 export class XmlParser {
 	/**
 	 * @param {string} text 
-	 * @param {XmlParserOptions} options 
+	 * @param {XmlParserOptions} [options] 
+	 * @param {function} callback
 	 */
-	constructor(text, options) {
+	constructor(text, options, callback) {
+		if (typeof options === 'function') {
+			callback = options;
+			options = null;
+		}
 		this.options = Object.assign({}, defaultOptions, options);
 		this.stream = new StreamReader(text);
-		this.paused = false;
+		this.callback = callback || noop;
+		this.paused = true;
 	}
 
 	/**
 	 * Parses current document
+	 * @returns {XmlParser}
 	 */
-	parse(callback = noop) {
-		const { stream, options } = this;
+	parse() {
+		this.paused = false;
+		const { stream, options, callback } = this;
 		while (!stream.eof() && !this.paused) {
 			const t = next(stream, options);
 
@@ -64,6 +66,8 @@ export class XmlParser {
 
 			callback(t, this);
 		}
+
+		return this;
 	}
 
 	/**
@@ -74,13 +78,12 @@ export class XmlParser {
 	}
 
 	/**
-	 * Resumes parsing
+	 * Check if parser stream is at the end of text stream, e.g.
+	 * if document is fully parsed
+	 * @returns {boolean}
 	 */
-	resume() {
-		if (this.paused) {
-			this.paused = false;
-			this.parse();
-		}
+	eof() {
+		return this.stream.eof();
 	}
 }
 
