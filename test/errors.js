@@ -1,7 +1,11 @@
 import assert from 'assert';
-import parse from '../index';
+import XmlParser from '../index';
 
 describe('Errors', () => {
+	function parse(text, options, callback) {
+		return new XmlParser(text, options, callback).parse();
+	}
+
 	const err = (message, pos) => ({ message, pos });
 
 	it('should throw error on invalid tags', () => {

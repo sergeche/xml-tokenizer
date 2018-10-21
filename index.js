@@ -17,23 +17,13 @@ import pi from './lib/processing-instruction';
 
 const noop = () => {};
 
-/**
- * Parses given text as XML
- * @param {string} text 
- * @param {XmlParserOptions} [options] 
- * @param {function} callback 
- */
-export default function parseXml(text, options, callback) {
-	return new XmlParser(text, options, callback).parse();
-}
-
 /** @type {XmlParserOptions} */
 const defaultOptions = {
 	allowExpressions: false,
 	allowUnsafe: false
 };
 
-export class XmlParser {
+export default class XmlParser {
 	/**
 	 * @param {string} text 
 	 * @param {XmlParserOptions} [options] 

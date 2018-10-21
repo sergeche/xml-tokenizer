@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { XmlParser } from '../index';
+import XmlParser from '../index';
 
 describe('Parser', () => {
 	class Node {

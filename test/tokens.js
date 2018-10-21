@@ -1,7 +1,11 @@
 import assert from 'assert';
-import parse from '../index';
+import XmlParser from '../index';
 
 describe('Tokens', () => {
+	function parse(text, options, callback) {
+		return new XmlParser(text, options, callback).parse();
+	}
+
 	const getTokens = code => {
 		const tokens = [];
 		parse(code, token => tokens.push(token));
