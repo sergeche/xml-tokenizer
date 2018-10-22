@@ -3,7 +3,7 @@ module.exports = {
         "es6": true,
 		"node": true,
 		"mocha": true,
-		"browser": true
+		"browser": false
     },
     "extends": "eslint:recommended",
     "parserOptions": {
